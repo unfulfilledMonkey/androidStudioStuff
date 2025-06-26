@@ -5,6 +5,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.StyleSpan
+import android.graphics.Typeface
+
+
 class ViewHolder(itemView:View): ViewHolder(itemView) {
     private val userImage: ImageView = itemView.findViewById(R.id.userImage)
     private val username: TextView = itemView.findViewById(R.id.username)
@@ -19,7 +25,12 @@ class ViewHolder(itemView:View): ViewHolder(itemView) {
         username.text = post.username
         location.text = post.location ?: ""
         postImage.setImageResource(post.imageId)
-        caption.text = post.caption ?: ""
+        val captionText = SpannableStringBuilder().apply {
+            append(post.username, StyleSpan(Typeface.BOLD), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            append(" ")
+            append(post.caption ?: "")
+        }
+        caption.text = captionText
         datePosted.text = post.datePosted
 
         if(post.liked){
