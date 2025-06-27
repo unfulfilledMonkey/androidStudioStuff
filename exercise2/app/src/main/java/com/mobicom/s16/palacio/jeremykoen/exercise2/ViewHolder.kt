@@ -9,6 +9,7 @@ import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.StyleSpan
 import android.graphics.Typeface
+import android.text.style.LeadingMarginSpan
 
 
 class ViewHolder(itemView:View): ViewHolder(itemView) {
@@ -24,7 +25,8 @@ class ViewHolder(itemView:View): ViewHolder(itemView) {
         userImage.setImageResource(post.userImageId)
         username.text = post.username
         location.text = post.location ?: ""
-        //if location is null hide
+
+        //if location is null hide then reposition username
         if (post.location.isNullOrBlank()) {
             location.visibility = View.GONE
         } else {
@@ -32,19 +34,46 @@ class ViewHolder(itemView:View): ViewHolder(itemView) {
             location.text = post.location
         }
         postImage.setImageResource(post.imageId)
-        val captionText = SpannableStringBuilder().apply {
-            append(post.username, StyleSpan(Typeface.BOLD), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-            append(" ")
-            append(post.caption ?: "")
-        }
-        caption.text = captionText
-        datePosted.text = post.datePosted
 
-        if(post.liked){
-            likeButton.setImageResource(R.drawable.heartcolored)
-        }else{
-            likeButton.setImageResource(R.drawable.heart)
+        //caption indentation
+        val prefix = "${post.username} "
+        val indentPx = caption.paint.measureText(prefix).toInt()
+
+        val raw = post.caption.orEmpty()
+        val sb = SpannableStringBuilder()
+
+        //for captions with \n in the string
+        if (raw.contains("\n")) {
+            val spaceWidth = caption.paint.measureText(" ").coerceAtLeast(1f)
+            val spaceCount = (indentPx / spaceWidth).toInt().coerceAtLeast(1)
+            val pad = " ".repeat(spaceCount)
+
+            val lines = raw.split("\n")
+            sb.append(prefix, StyleSpan(Typeface.BOLD), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            if (lines.isNotEmpty()) sb.append(lines[0])
+
+            // subsequent lines get a newline + pad + text
+            for (i in 1 until lines.size) {
+                sb.append("\n")
+                    .append(pad)
+                    .append(lines[i])
+            }
+        } else { //every other caption
+            sb.apply {
+                append(prefix, StyleSpan(Typeface.BOLD), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                append(raw)
+                setSpan(
+                    LeadingMarginSpan.Standard(0, indentPx),
+                    0,
+                    length,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+            }
         }
+        caption.setText(sb, TextView.BufferType.SPANNABLE)
+
+
+        datePosted.text = post.datePosted
 
         //click button
         likeButton.setOnClickListener{
