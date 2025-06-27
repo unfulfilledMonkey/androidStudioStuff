@@ -35,45 +35,59 @@ class ViewHolder(itemView:View): ViewHolder(itemView) {
         }
         postImage.setImageResource(post.imageId)
 
-        //caption indentation
-        val prefix = "${post.username} "
-        val indentPx = caption.paint.measureText(prefix).toInt()
+        //hide username as well if caption is blank
+        val rawCaption = post.caption.orEmpty()
+        if(rawCaption.isBlank()){
+            caption.visibility = View.GONE
+        }else{
+            caption.visibility = View.VISIBLE
 
-        val raw = post.caption.orEmpty()
-        val sb = SpannableStringBuilder()
+            //caption indentation
+            val prefix = "${post.username} "
+            val indentPx = caption.paint.measureText(prefix).toInt()
 
-        //for captions with \n in the string
-        if (raw.contains("\n")) {
-            val spaceWidth = caption.paint.measureText(" ").coerceAtLeast(1f)
-            val spaceCount = (indentPx / spaceWidth).toInt().coerceAtLeast(1)
-            val pad = " ".repeat(spaceCount)
+            val raw = post.caption.orEmpty()
+            val sb = SpannableStringBuilder()
 
-            val lines = raw.split("\n")
-            sb.append(prefix, StyleSpan(Typeface.BOLD), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-            if (lines.isNotEmpty()) sb.append(lines[0])
+            //for captions with \n in the string
+            if (raw.contains("\n")) {
+                val spaceWidth = caption.paint.measureText(" ").coerceAtLeast(1f)
+                val spaceCount = (indentPx / spaceWidth).toInt().coerceAtLeast(1)
+                val pad = " ".repeat(spaceCount)
 
-            // subsequent lines get a newline + pad + text
-            for (i in 1 until lines.size) {
-                sb.append("\n")
-                    .append(pad)
-                    .append(lines[i])
+                val lines = raw.split("\n")
+                sb.append(prefix, StyleSpan(Typeface.BOLD), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                if (lines.isNotEmpty()) sb.append(lines[0])
+
+                // subsequent lines get a newline + pad + text
+                for (i in 1 until lines.size) {
+                    sb.append("\n")
+                        .append(pad)
+                        .append(lines[i])
+                }
+            } else { //every other caption
+                sb.apply {
+                    append(prefix, StyleSpan(Typeface.BOLD), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    append(raw)
+                    setSpan(
+                        LeadingMarginSpan.Standard(0, indentPx),
+                        0,
+                        length,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                }
             }
-        } else { //every other caption
-            sb.apply {
-                append(prefix, StyleSpan(Typeface.BOLD), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                append(raw)
-                setSpan(
-                    LeadingMarginSpan.Standard(0, indentPx),
-                    0,
-                    length,
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                )
-            }
+            caption.setText(sb, TextView.BufferType.SPANNABLE)
         }
-        caption.setText(sb, TextView.BufferType.SPANNABLE)
-
 
         datePosted.text = post.datePosted
+
+        //checks if post is already liked based on DataHelper
+        if(post.liked){
+            likeButton.setImageResource(R.drawable.heartcolored)
+        }else{
+            likeButton.setImageResource(R.drawable.heart)
+        }
 
         //click button
         likeButton.setOnClickListener{
