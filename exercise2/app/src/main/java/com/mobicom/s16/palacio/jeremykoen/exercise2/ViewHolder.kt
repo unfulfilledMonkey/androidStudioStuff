@@ -24,6 +24,13 @@ class ViewHolder(itemView:View): ViewHolder(itemView) {
         userImage.setImageResource(post.userImageId)
         username.text = post.username
         location.text = post.location ?: ""
+        //if location is null hide
+        if (post.location.isNullOrBlank()) {
+            location.visibility = View.GONE
+        } else {
+            location.visibility = View.VISIBLE
+            location.text = post.location
+        }
         postImage.setImageResource(post.imageId)
         val captionText = SpannableStringBuilder().apply {
             append(post.username, StyleSpan(Typeface.BOLD), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
