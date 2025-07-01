@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Exercise 1</string>
+    <string name="fort_santiago">Fort Santiago</string>
+    <string name="information">INFORMATION</string>
+    <string name="fort_santiago_built_in_1571_is_a_citadel_or_castle_built_by_spanish_navigator_and_governor_miguel_l_pez_de_legazpi_for_the_newly_established_city_of_manila_in_the_philippines_the_defense_fortress_is_located_in_intramuros_the_walled_city_of_manila_the_fort_is_one_of_the_most_important_historical_sites_in_manila_wikipedia">Fort Santiago, built in 1571, is a citadel or castle built by Spanish navigator and governor Miguel López de Legazpi for the newly established city of Manila in the Philippines. The defense fortress is located in Intramuros, the walled city of Manila. The fort is one of the most important historical sites in Manila. -Wikipedia</string>
+    <string name="where">WHERE</string>
+    <string name="established">ESTABLISHED</string>
+    <string name="type">TYPE</string>
+    <string name="intramuros">Intramuros</string>
+    <string name="fortress">Fortress</string>
+    <string name="_1571">1571</string>
+    <string name="like_button">like button</string>
+</resources>

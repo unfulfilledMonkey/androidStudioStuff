@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:id="@+id/landmarkImage"
+        android:layout_width="414dp"
+        android:layout_height="351dp"
+        android:background="@drawable/fortsantiago"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="VisualLintBounds">
+
+        <TextView
+            android:id="@+id/landmarkName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="289dp"
+            android:fontFamily="sans-serif-black"
+            android:text="@string/fort_santiago"
+            android:textColor="#FAF8F8"
+            android:textSize="34sp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/informationText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="sans-serif-black"
+        android:text="@string/information"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/landmarkImage" />
+
+    <TextView
+        android:id="@+id/descriptionText"
+        android:layout_width="376dp"
+        android:layout_height="79dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/fort_santiago_built_in_1571_is_a_citadel_or_castle_built_by_spanish_navigator_and_governor_miguel_l_pez_de_legazpi_for_the_newly_established_city_of_manila_in_the_philippines_the_defense_fortress_is_located_in_intramuros_the_walled_city_of_manila_the_fort_is_one_of_the_most_important_historical_sites_in_manila_wikipedia"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/informationText"
+        tools:ignore="TextSizeCheck" />
+
+    <TextView
+        android:id="@+id/locationText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="sans-serif-black"
+        android:text="@string/where"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionText" />
+
+    <TextView
+        android:id="@+id/establishedText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="sans-serif-black"
+        android:text="@string/established"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/locationText"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionText" />
+
+    <TextView
+        android:id="@+id/typeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="sans-serif-black"
+        android:text="@string/type"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/establishedText"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionText" />
+
+    <TextView
+        android:id="@+id/cityText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/intramuros"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/locationText"
+        android:layout_marginStart="40dp"/>
+
+    <TextView
+        android:id="@+id/dateText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/_1571"
+        app:layout_constraintStart_toEndOf="@+id/cityText"
+        app:layout_constraintTop_toBottomOf="@id/establishedText"
+        android:textSize="16sp"
+        android:layout_marginStart="60dp"/>
+
+    <TextView
+        android:id="@+id/structureTypeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fortress"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/dateText"
+        app:layout_constraintTop_toBottomOf="@id/typeText"
+        android:layout_marginStart="70dp"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/likeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="10dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:contentDescription="@string/like_button"
+        app:layout_constraintBottom_toTopOf="@+id/informationText"
+        app:layout_constraintEnd_toEndOf="@id/landmarkImage"
+        app:layout_constraintTop_toBottomOf="@+id/landmarkImage"
+        app:layout_constraintVertical_bias="0.688"
+        app:srcCompat="@drawable/heart"
+        tools:ignore="SpeakableTextPresentCheck,RedundantDescriptionCheck"
+        app:backgroundTint="@color/white"
+        app:tint="@android:color/holo_red_dark"
+        app:shapeAppearance="@style/fabShapeStyle1"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
