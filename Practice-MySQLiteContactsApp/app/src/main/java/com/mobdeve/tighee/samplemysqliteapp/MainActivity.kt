@@ -21,21 +21,32 @@ class MainActivity : AppCompatActivity() {
         // Notice that we're checking our own defined result codes for Add and Edit.
         if (result.data != null) {
             if (result.resultCode == ResultCodes.ADD_RESULT.ordinal) { // AdD
+                val id = result.data!!.getLongExtra(IntentKeys.CONTACT_ID_KEY.name, -1)
                 contacts.add(
                     0, Contact(
                         result.data!!.getStringExtra(IntentKeys.LAST_NAME_KEY.name)!!,
                         result.data!!.getStringExtra(IntentKeys.FIRST_NAME_KEY.name)!!,
                         result.data!!.getStringExtra(IntentKeys.NUMBER_KEY.name)!!,
-                        result.data!!.getStringExtra(IntentKeys.IMAGE_URI_KEY.name)!!
+                        result.data!!.getStringExtra(IntentKeys.IMAGE_URI_KEY.name)!!,
+                        id
                     )
                 )
                 myAdapter.notifyItemInserted(0)
             } else if (result.resultCode == ResultCodes.EDIT_RESULT.ordinal) { // EDIT
                 /* TODO: Logic for handling the edit return. Update the RecyclerView.
                  * */
-
-
-
+                val updatedId = result.data!!.getLongExtra(IntentKeys.CONTACT_ID_KEY.name, -1)
+                val index = contacts.indexOfFirst { it.id == updatedId }
+                if (index != -1) {
+                    contacts[index] = Contact(
+                        result.data!!.getStringExtra(IntentKeys.LAST_NAME_KEY.name)!!,
+                        result.data!!.getStringExtra(IntentKeys.FIRST_NAME_KEY.name)!!,
+                        result.data!!.getStringExtra(IntentKeys.NUMBER_KEY.name)!!,
+                        result.data!!.getStringExtra(IntentKeys.IMAGE_URI_KEY.name)!!,
+                        updatedId
+                    )
+                    myAdapter.notifyItemChanged(index)
+                }
             }
         }
     }

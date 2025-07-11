@@ -7,8 +7,9 @@ import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.recyclerview.widget.RecyclerView
 import com.mobdeve.tighee.samplemysqliteapp.databinding.ItemLayoutBinding
+import java.util.concurrent.Executors
 
-class MyAdapter(private val contacts: ArrayList<Contact>, private val myActivityResultLauncher: ActivityResultLauncher<Intent>) : RecyclerView.Adapter<MyViewHolder>() {
+class   MyAdapter(private val contacts: ArrayList<Contact>, private val myActivityResultLauncher: ActivityResultLauncher<Intent>) : RecyclerView.Adapter<MyViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemViewBinding: ItemLayoutBinding = ItemLayoutBinding.inflate(
             LayoutInflater.from(parent.context),
@@ -43,8 +44,19 @@ class MyAdapter(private val contacts: ArrayList<Contact>, private val myActivity
          *       a copy of the Contacts data in the Adapter, so you can modify the data here.
          * */
         myViewHolder.setDeleteBtnOnClickListener(View.OnClickListener {
+            myViewHolder.setDeleteBtnOnClickListener(View.OnClickListener { view ->
+                val position = myViewHolder.adapterPosition
+                val contact = contacts[position]
 
+                // Delete from DB on background thread
+                Executors.newSingleThreadExecutor().execute {
+                    MyDbHelper.getInstance(view.context)!!.deleteContact(contact.id)
+                }
 
+                // Delete from RecyclerView
+                contacts.removeAt(position)
+                notifyItemRemoved(position)
+            })
 
         })
 
